@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Keamanan Wajah Futuristik</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+    <style>
+        /* Menggunakan font Inter dari Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom glow effect for buttons */
+        .glow-button {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            /* Changed for green glow */
+            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.5) 0%, transparent 70%); /* emerald-500 */
+            transform: rotate(0deg);
+            transition: transform 0.8s ease-in-out, opacity 0.3s ease;
+            opacity: 0;
+            z-index: -1;
+        }
+        .glow-button:hover::before {
+            transform: rotate(360deg);
+            opacity: 1;
+        }
+        .glow-button:hover {
+            /* Changed for green glow */
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.7), 0 0 40px rgba(52, 211, 153, 0.5); /* emerald-500, teal-400 */
+            transform: translateY(-3px);
+        }
+
+        /* Custom glow effect for main card */
+        .card-glow {
+            /* Changed for green glow */
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.8), 0 0 60px rgba(52, 211, 153, 0.6); /* emerald-500, teal-400 */
+            backdrop-filter: blur(10px); /* Efek blur untuk latar belakang semi-transparan */
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-emerald-950 text-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-gray-800 bg-opacity-70 card-glow p-8 md:p-12 rounded-3xl shadow-2xl max-w-4xl w-full text-center border border-emerald-700/50 transform transition-all duration-500 hover:scale-105">
+
+        <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-600 mb-6 md:mb-10 animate-fade-in">
+            SISTEM KEAMANAN RUANGAN PEMBANGKIT TENAGA LISTRIK CERDAS
+        </h1>
+        <p class="text-lg md:text-xl text-gray-300 mb-8 md:mb-12 leading-relaxed animate-fade-in animation-delay-200">
+            Selamat datang di portal sistem keamanan berbasis pengenalan wajah. Akses cepat dan aman untuk manajemen waktu Anda.
+        </p>
+
+        <nav class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+            <a href="/absen-ui" class="group glow-button flex flex-col items-center justify-center p-6 bg-gray-700 rounded-2xl border border-emerald-600/50 shadow-lg hover:bg-emerald-800 hover:border-emerald-500 transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                <svg class="w-16 h-16 text-emerald-400 group-hover:text-white transition-colors duration-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span class="text-xl md:text-2xl font-semibold text-gray-200 group-hover:text-white transition-colors duration-300">Akses Sekarang</span>
+                <p class="text-sm text-gray-400 group-hover:text-gray-200 mt-1">Akses Manual</p>
+            </a>
+
+            <a href="/register-ui" class="group glow-button flex flex-col items-center justify-center p-6 bg-gray-700 rounded-2xl border border-emerald-600/50 shadow-lg hover:bg-emerald-800 hover:border-emerald-500 transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                <svg class="w-16 h-16 text-emerald-400 group-hover:text-white transition-colors duration-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                </svg>
+                <span class="text-xl md:text-2xl font-semibold text-gray-200 group-hover:text-white transition-colors duration-300">Daftar Pengguna</span>
+                <p class="text-sm text-gray-400 group-hover:text-gray-200 mt-1">Registrasi wajah dan data diri</p>
+            </a>
+
+            <a href="/absensi-ui" class="group glow-button flex flex-col items-center justify-center p-6 bg-gray-700 rounded-2xl border border-emerald-600/50 shadow-lg hover:bg-emerald-800 hover:border-emerald-500 transition-all duration-300 ease-in-out transform hover:-translate-y-2">
+                <svg class="w-16 h-16 text-emerald-400 group-hover:text-white transition-colors duration-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v2m-2-7v7m2-6h.01M5 13h.01M12 15h.01M12 9v6m-4 1h.01M17 14v2m-2-1V9m2 2h.01M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                <span class="text-xl md:text-2xl font-semibold text-gray-200 group-hover:text-white transition-colors duration-300">Data User</span>
+                <p class="text-sm text-gray-400 group-hover:text-gray-200 mt-1">Lihat riwayat Akses lengkap</p>
+            </a>
+        </nav>
+
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold text-emerald-400 mb-4">Wajah Tidak Dikenali</h2>
+            <div id="unknownFacesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+            <button id="resetUnknownBtn" class="mt-4 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-bold">
+                Hapus Semua Wajah Tidak Dikenali
+            </button>
+        </div>
+
+        <footer class="mt-12 text-gray-500 text-sm md:text-base animate-fade-in animation-delay-400">
+            &copy; 2025 Sistem Keamanan Wajah.
+        </footer>
+    </div>
+
+    <script>
+        // Inisialisasi koneksi socket
+        const socket = io();
+
+        // Saat event absensi_baru diterima, reload data unknown faces
+        socket.on('absensi_baru', function(data) {
+            loadUnknownFaces();
+        });
+
+        // Tampilkan wajah tidak dikenali
+        async function loadUnknownFaces() {
+            let res = await fetch('/unknown-faces');
+            let data = await res.json();
+            let grid = document.getElementById('unknownFacesGrid');
+            grid.innerHTML = '';
+            if (data.length === 0) {
+                grid.innerHTML = '<p class="text-gray-400">Belum ada wajah tidak dikenali.</p>';
+                return;
+            }
+            data.forEach(item => {
+                let div = document.createElement('div');
+                div.className = 'bg-gray-700 rounded-xl p-4 flex flex-col items-center shadow-md';
+                div.innerHTML = `
+                    <img src="/uploads/${item.filename}" alt="Unknown Face" class="w-32 h-32 object-cover rounded-full mb-2 border-4 border-emerald-500">
+                    <span class="text-sm text-gray-300">${item.waktu}</span>
+                `;
+                grid.appendChild(div);
+            });
+        }
+        document.addEventListener('DOMContentLoaded', loadUnknownFaces);
+
+        document.getElementById('resetUnknownBtn').onclick = async function() {
+            if (!confirm('Yakin ingin menghapus semua wajah tidak dikenali?')) return;
+            let res = await fetch('/reset-unknown-faces', {method: 'POST'});
+            let data = await res.json();
+            alert(data.message);
+            loadUnknownFaces();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Akses Wajah - Sistem Keamanan Akses Rungan Pembangkit Tenaga Listrik Cerdas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Menggunakan font Inter dari Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom glow effect for buttons (reused from previous design) */
+        .glow-button {
+            position: relative;
+            z-index: 1;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .glow-button::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            /* Changed for green glow */
+            background: radial-gradient(circle at center, rgba(16, 185, 129, 0.5) 0%, transparent 70%); /* emerald-500 */
+            transform: rotate(0deg);
+            transition: transform 0.8s ease-in-out, opacity 0.3s ease;
+            opacity: 0;
+            z-index: -1;
+        }
+        .glow-button:hover::before {
+            transform: rotate(360deg);
+            opacity: 1;
+        }
+        .glow-button:hover {
+            /* Changed for green glow */
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.7), 0 0 40px rgba(52, 211, 153, 0.5); /* emerald-500, teal-400 */
+            transform: translateY(-3px);
+        }
+
+        /* Custom glow effect for main card (reused from previous design) */
+        .card-glow {
+            /* Changed for green glow */
+            box-shadow: 0 0 30px rgba(16, 185, 129, 0.8), 0 0 60px rgba(52, 211, 153, 0.6); /* emerald-500, teal-400 */
+            backdrop-filter: blur(10px); /* Efek blur untuk latar belakang semi-transparan */
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+        }
+
+        /* Hide default file input */
+        input[type="file"] {
+            display: none;
+        }
+
+        /* Style for custom file input label */
+        .custom-file-upload {
+            @apply inline-flex items-center px-6 py-3 border border-emerald-600 rounded-lg shadow-md cursor-pointer
+                    bg-emerald-700 text-white font-medium text-lg hover:bg-emerald-800 focus:outline-none focus:ring-2
+                    focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all duration-300 ease-in-out;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 to-emerald-950 text-gray-100 flex items-center justify-center min-h-screen p-4">
+
+    <div class="bg-gray-800 bg-opacity-70 card-glow p-8 md:p-12 rounded-3xl shadow-2xl max-w-2xl w-full text-center border border-emerald-700/50 transform transition-all duration-500 hover:scale-105">
+
+        <h2 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-600 mb-6 md:mb-8 animate-fade-in">
+            AKSES DENGAN WAJAH
+        </h2>
+        <p class="text-md md:text-lg text-gray-300 mb-8 md:mb-10 leading-relaxed animate-fade-in animation-delay-200">
+            Unggah foto wajah Anda untuk Mengakses Ruangan Pembangkit Tenaga Listrik. Pastikan wajah terlihat jelas.
+        </p>
+
+        <form id="absenForm" enctype="multipart/form-data" class="space-y-6">
+            <div class="flex flex-col items-center justify-center">
+                <label for="image" class="custom-file-upload">
+                    <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                    </svg>
+                    Pilih File Gambar
+                </label>
+                <span id="fileNameDisplay" class="mt-4 text-gray-400 text-sm italic">Belum ada file yang dipilih.</span>
+                <input type="file" name="image" id="image" accept="image/*" required>
+            </div>
+
+            <button type="submit" class="glow-button px-8 py-4 rounded-xl text-xl font-bold
+                                         bg-gradient-to-r from-teal-500 to-emerald-600 text-white
+                                         shadow-lg hover:shadow-xl focus:outline-none focus:ring-2
+                                         focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-gray-900
+                                         transition-all duration-300 ease-in-out w-full max-w-sm">
+                Akses Sekarang
+            </button>
+        </form>
+
+        <div id="result" class="mt-8 p-4 bg-gray-700 rounded-lg text-center text-lg font-semibold text-emerald-300 min-h-[50px] flex items-center justify-center animate-fade-in animation-delay-300">
+            </div>
+
+        <div id="loadingIndicator" class="hidden mt-4 text-emerald-400 text-lg flex items-center justify-center">
+            <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-emerald-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Memproses...
+        </div>
+
+        <a href="/" class="mt-8 inline-block text-emerald-400 hover:text-emerald-300 transition-colors duration-300 text-md md:text-lg">
+            &larr; Kembali ke Halaman Utama
+        </a>
+
+        <div class="mt-6 text-sm text-gray-400">
+            Jika wajah Anda tidak dikenali, foto akan tampil di halaman utama pada bagian "Wajah Tidak Dikenali".
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('image').addEventListener('change', function() {
+            const fileNameDisplay = document.getElementById('fileNameDisplay');
+            if (this.files && this.files.length > 0) {
+                fileNameDisplay.textContent = `File dipilih: ${this.files[0].name}`;
+            } else {
+                fileNameDisplay.textContent = 'Belum ada file yang dipilih.';
+            }
+        });
+
+        document.getElementById('absenForm').onsubmit = async function(e) {
+            e.preventDefault();
+
+            const resultDiv = document.getElementById('result');
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            const submitButton = this.querySelector('button[type="submit"]');
+
+            // Show loading indicator and disable button
+            resultDiv.innerText = ''; // Clear previous result
+            // Remove any previous success/error classes
+            resultDiv.classList.remove('text-green-400', 'text-red-400');
+            resultDiv.classList.add('text-emerald-300'); // Reset to default color
+
+            loadingIndicator.classList.remove('hidden');
+            submitButton.disabled = true;
+            submitButton.classList.add('opacity-50', 'cursor-not-allowed');
+
+            let file = document.getElementById('image').files[0];
+            if (!file) {
+                resultDiv.innerText = 'Mohon pilih file gambar terlebih dahulu.';
+                resultDiv.classList.remove('text-emerald-300'); // Remove default
+                resultDiv.classList.add('text-red-400'); // Set to red for error
+                loadingIndicator.classList.add('hidden');
+                submitButton.disabled = false;
+                submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+                return;
+            }
+
+            try {
+                let res = await fetch('/absen', {
+                    method: 'POST',
+                    body: file,
+                    headers: {
+                        'Content-Type': file.type // Penting untuk mengirim tipe file dengan benar
+                    }
+                });
+
+                if (!res.ok) {
+                    const errorResponse = await res.json(); // Try to parse JSON for error details
+                    let errorMessage = 'Terjadi kesalahan tidak dikenal.';
+                    if (errorResponse && errorResponse.message) {
+                        errorMessage = errorResponse.message;
+                    } else {
+                        errorMessage = `Server error: ${res.status} - ${await res.text()}`;
+                    }
+                    resultDiv.innerText = errorMessage;
+                    resultDiv.classList.remove('text-emerald-300'); // Remove default
+                    resultDiv.classList.add('text-red-400'); // Set to red for error
+                } else {
+                    let data = await res.json();
+                    resultDiv.innerText = data.message || 'Respons tidak dikenal dari server.';
+                    resultDiv.classList.remove('text-emerald-300', 'text-red-400'); // Remove previous colors
+                    resultDiv.classList.add('text-green-400'); // Set to green for success
+                }
+            } catch (error) {
+                console.error('Error during absensi:', error);
+                resultDiv.innerText = `Terjadi kesalahan: ${error.message}`;
+                resultDiv.classList.remove('text-emerald-300'); // Remove default
+                resultDiv.classList.add('text-red-400'); // Set to red for error
+            } finally {
+                // Hide loading indicator and re-enable button
+                loadingIndicator.classList.add('hidden');
+                submitButton.disabled = false;
+                submitButton.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        }
+    </script>
+</body>
+</html>

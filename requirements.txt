@@ -1,0 +1,23 @@
+bidict==0.23.1
+blinker==1.8.2
+click==8.1.8
+colorama==0.4.6
+dlib @ file:///C:/Users/aryag/Documents/Client_2/dlib-19.22.99-cp38-cp38-win_amd64.whl#sha256=b02321413b8765159ae552967ab9781a981324b2a389924bdb8c4ccab227f160
+face-recognition==1.3.0
+face_recognition_models==0.3.0
+Flask==3.0.3
+Flask-SocketIO==5.5.1
+h11==0.16.0
+importlib_metadata==8.5.0
+itsdangerous==2.2.0
+Jinja2==3.1.6
+MarkupSafe==2.1.5
+numpy==1.24.4
+opencv-python==4.11.0.86
+pillow==10.4.0
+python-engineio==4.12.2
+python-socketio==5.13.0
+simple-websocket==1.1.0
+Werkzeug==3.0.6
+wsproto==1.2.0
+zipp==3.20.2
