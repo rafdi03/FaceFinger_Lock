@@ -209,6 +209,6 @@ def unknown_faces():
     data = [{'filename': row[0], 'waktu': row[1]} for row in c.fetchall()]
     conn.close()
     return jsonify(data)
-
+    
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5000)
