@@ -6,7 +6,6 @@ from face_utils import recognize_face
 import base64
 import face_recognition
 from flask_socketio import SocketIO, emit
-import shutil
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -67,12 +66,6 @@ def absen():
         if catat_absensi(nama):
             # Kirim notifikasi ke client
             socketio.emit('absensi_baru', {'nama': nama, 'waktu': timestamp})
-            # Simpan ke dataset_faces
-            dataset_dir = 'dataset_faces'
-            os.makedirs(dataset_dir, exist_ok=True)
-            new_filename = f"{nama}_{timestamp}.jpg"
-            new_filepath = os.path.join(dataset_dir, new_filename)
-            shutil.copy(filepath, new_filepath)
             # Cari user_id
             conn = sqlite3.connect(DB_PATH)
             c = conn.cursor()
@@ -209,6 +202,6 @@ def unknown_faces():
     data = [{'filename': row[0], 'waktu': row[1]} for row in c.fetchall()]
     conn.close()
     return jsonify(data)
-    
+
 if __name__ == '__main__':
     socketio.run(app, host='0.0.0.0', port=5000)
