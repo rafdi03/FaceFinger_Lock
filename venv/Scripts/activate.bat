@@ -8,7 +8,7 @@ if defined _OLD_CODEPAGE (
     "%SystemRoot%\System32\chcp.com" 65001 > nul
 )
 
-set VIRTUAL_ENV=C:\Users\aryag\Documents\Client_2\venv
+set VIRTUAL_ENV=C:\Users\ACER\Documents\GitHub\FaceFinger_Lock\venv
 
 if not defined PROMPT set PROMPT=$P$G
 
