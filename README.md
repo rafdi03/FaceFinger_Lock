@@ -63,5 +63,5 @@ This repository uses open-source libraries under their respective licenses. Plea
 
 ---
 
-**Author:** [rafdi03](https://github.com/rafdi03)  
+**Author:** [rafdi03](https://github.com/rafdi03) [Bayusutra](https://github.com/BayuSutra) 
 _Automatic documentation by Copilot. Please complete or adapt this README as needed for your project._
